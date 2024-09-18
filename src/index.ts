@@ -75,7 +75,7 @@ export function apply(ctx: Context) {
   })
   
   ctx.middleware(async (session, next) => {
-    if(!session.quote.user?.isBot) return next();
+    if(!session.quote?.user?.isBot) return next();
     const user_id = session.author.id;
 		const prev = await ctx.database.get(db, user_id);
     let conversation_id = "";
