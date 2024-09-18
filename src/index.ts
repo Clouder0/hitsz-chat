@@ -1,8 +1,8 @@
-import { Context, Schema } from 'koishi'
+import { type Context, Schema } from 'koishi'
 
 export const name = 'hitsz-chat'
 
-export interface Config {}
+export type Config = {}
 
 export const Config: Schema<Config> = Schema.object({})
 
