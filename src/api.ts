@@ -84,6 +84,7 @@ export const API = (base_url: string, key: string) => {
 				files: [],
 			}),
 		});
+        console.log("res", res);
 		return (await res.json()) as ChatCompletionResponse;
 	};
 
