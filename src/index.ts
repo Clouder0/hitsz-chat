@@ -36,6 +36,15 @@ export function apply(ctx: Context) {
 		conversation_id: "string",
 	});
 
+	ctx
+		.command("chat end", "停止本轮对话")
+		.usage("停止本轮对话，终止当前 Session，重新开始一个新的话题。")
+		.action(async (options) => {
+			const user_id = options.session.author.id;
+			await ctx.database.remove(db, user_id);
+			options.session.send("已终止本轮对话。");
+		});
+
 	ctx.on("message", async (session) => {
 		const user_id = session.author.id;
 		const prev = await ctx.database.get(db, user_id);
