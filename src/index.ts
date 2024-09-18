@@ -75,6 +75,7 @@ export function apply(ctx: Context) {
   })
   
   ctx.middleware(async (session, next) => {
+    if(!session.quote.user.isBot) return next();
     const user_id = session.author.id;
 		const prev = await ctx.database.get(db, user_id);
     let conversation_id = "";
@@ -85,8 +86,7 @@ export function apply(ctx: Context) {
 		}
     if(conversation_id === "") {
       // in this mode only handles session msg
-      next();
-      return;
+      return next();
     }
     await session.send("我已经收到了你的消息，请耐心等待...");
     const res = await handleChat(conversation_id, user_id, session.content);
