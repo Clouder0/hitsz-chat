@@ -60,6 +60,7 @@ export function apply(ctx: Context) {
 			last_time: new Date(now),
 			conversation_id: res.conversation_id,
 		});
+    console.log("set database", new Date(now), user_id, res.conversation_id);
 		await Promise.all([send_task, set_conv_task]);
     console.log("send done, res", res.answer)
 	});
