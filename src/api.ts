@@ -73,6 +73,7 @@ export const API = (base_url: string, key: string) => {
 		const res = await fetch(`${base_url}/chat-messages`, {
 			headers: {
 				"Authorization": `Bearer ${key}`,
+                "Content-Type": "application/json",
 			},
 			method: "POST",
 			body: JSON.stringify({
@@ -96,6 +97,7 @@ export const API = (base_url: string, key: string) => {
 		await fetch(`${base_url}/messages/${message_id}/feedbacks`, {
 			headers: {
 				"Authorization": `Bearer ${key}`,
+                "Content-Type": "application/json",
 			},
 			method: "POST",
 			body: JSON.stringify({
