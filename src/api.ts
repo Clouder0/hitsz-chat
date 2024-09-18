@@ -69,6 +69,7 @@ export const API = (base_url: string, key: string) => {
 		user: string,
 		conversation_id: string,
 	) => {
+        console.log("key", key);
 		const res = await fetch(`${base_url}/chat-messages`, {
 			headers: {
 				Authorization: `Bearer ${key}`,
