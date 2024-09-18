@@ -70,6 +70,7 @@ export function apply(ctx: Context) {
   ctx.command("ask <msg:text>").action(async(a) => {
     // always start a new conversation
     const res = await handleChat("", a.session.author.id, a.args[0]);
+    await a.session.send("我已经收到了你的消息，请耐心等待...");
     await a.session.send(res);
   })
   
@@ -86,6 +87,7 @@ export function apply(ctx: Context) {
       // in this mode only handles session msg
       next();
     }
+    await session.send("我已经收到了你的消息，请耐心等待...");
     const res = await handleChat(conversation_id, user_id, session.content);
     await session.send(res);
    
