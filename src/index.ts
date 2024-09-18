@@ -37,6 +37,7 @@ export function apply(ctx: Context) {
 	ctx.on("message", async (session) => {
 		const user_id = session.author.id;
 		const prev = await ctx.database.get("hitsz_chat", user_id);
+    console.log("prev", prev);
 
 		let conversation_id = Math.random().toString(36).slice(-5);
 		const now = Date.now();
@@ -44,12 +45,14 @@ export function apply(ctx: Context) {
 		if (prev.length > 0 && prev[0].last_time > new Date(now - 1000 * 60 * 5)) {
 			conversation_id = prev[0].conversation_id;
 		}
+    console.log("conversation_id", conversation_id);
 
 		const res = await api.sendChatMsg(
 			session.content,
 			user_id,
 			conversation_id,
 		);
+    console.log("res", res);
 		const send_task = session.send(res.answer);
 
 		const set_conv_task = ctx.database.set("hitsz_chat", user_id, {
@@ -57,5 +60,6 @@ export function apply(ctx: Context) {
 			conversation_id: conversation_id,
 		});
 		await Promise.all([send_task, set_conv_task]);
+    console.log("send done, res", res.answer)
 	});
 }
