@@ -1,5 +1,6 @@
 import { type Context, Schema } from "koishi";
 import { API } from "./api";
+import { v4 as uuidv4 } from 'uuid';
 
 export const name = "hitsz-chat";
 export const inject = {
@@ -39,7 +40,7 @@ export function apply(ctx: Context) {
 		const prev = await ctx.database.get("hitsz_chat", user_id);
     console.log("prev", prev);
 
-		let conversation_id = Math.random().toString(36).slice(-5);
+		let conversation_id = uuidv4();
 		const now = Date.now();
 		// 5 minutes refresh conversation session
 		if (prev.length > 0 && prev[0].last_time > new Date(now - 1000 * 60 * 5)) {
