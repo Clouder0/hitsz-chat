@@ -63,7 +63,7 @@ export function apply(ctx: Context) {
 		.usage("停止本轮对话，终止当前 Session，重新开始一个新的话题。")
 		.action(async (options) => {
 			const user_id = options.session.author.id;
-			await ctx.database.remove(db, user_id);
+			await ctx.database.remove(db, [user_id]);
 			options.session.send("已终止本轮对话。");
 		});
 
