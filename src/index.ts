@@ -69,7 +69,7 @@ export function apply(ctx: Context) {
 
   ctx.command("ask <msg:text>").action(async(a) => {
     // always start a new conversation
-    const res = await handleChat("", a.session.author.id, a.session.content);
+    const res = await handleChat("", a.session.author.id, a.args[0]);
     await a.session.send(res);
   })
   
