@@ -40,7 +40,7 @@ export function apply(ctx: Context) {
 		const prev = await ctx.database.get("hitsz_chat", user_id);
     console.log("prev", prev);
 
-		let conversation_id = uuidv4();
+		let conversation_id = "";
 		const now = Date.now();
 		// 5 minutes refresh conversation session
 		if (prev.length > 0 && prev[0].last_time > new Date(now - 1000 * 60 * 5)) {
@@ -58,7 +58,7 @@ export function apply(ctx: Context) {
 
 		const set_conv_task = ctx.database.set("hitsz_chat", user_id, {
 			last_time: new Date(now),
-			conversation_id: conversation_id,
+			conversation_id: res.conversation_id,
 		});
 		await Promise.all([send_task, set_conv_task]);
     console.log("send done, res", res.answer)
