@@ -49,23 +49,29 @@ export function apply(ctx: Context) {
 		}
 		console.log("conversation_id", conversation_id);
 
-		const res = await api.sendChatMsg(
-			session.content,
-			user_id,
-			conversation_id,
-		);
-		console.log("res", res);
-		const send_task = session.send(res.answer);
+		try {
+			const res = await api.sendChatMsg(
+				session.content,
+				user_id,
+				conversation_id,
+			);
 
-		const set_task = ctx.database.upsert(db, (_) => [
-			{
-				id: user_id,
-				last_time: new Date(now),
-				conversation_id: res.conversation_id,
-			},
-		]);
-		console.log("set database", new Date(now), user_id, res.conversation_id);
-		await Promise.all([send_task, set_task]);
-		console.log("send done, res", res.answer);
+			console.log("res", res);
+			const send_task = session.send(res.answer);
+			const set_task = ctx.database.upsert(db, (_) => [
+				{
+					id: user_id,
+					last_time: new Date(now),
+					conversation_id: res.conversation_id,
+				},
+			]);
+			console.log("set database", new Date(now), user_id, res.conversation_id);
+			await Promise.all([send_task, set_task]);
+			console.log("send done, res", res.answer);
+		} catch (e) {
+			console.error(e);
+			await session.send("抱歉，出现了未知错误！");
+			return;
+		}
 	});
 }
