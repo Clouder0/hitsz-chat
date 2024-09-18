@@ -2,8 +2,8 @@
   "name": "koishi-plugin-hitsz-chat",
   "description": "Chatbot for HITSZ",
   "version": "0.0.1",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "src/index.js",
+  "typings": "src/index.d.ts",
   "files": [
     "lib",
     "dist"
