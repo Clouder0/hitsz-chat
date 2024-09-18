@@ -70,8 +70,8 @@ export function apply(ctx: Context) {
   ctx.command("ask <msg:text>").action(async(a) => {
     // always start a new conversation
     const res = await handleChat("", a.session.author.id, a.args[0]);
-    await a.session.sendQueued(h("p", h("quote", {id: a.session.messageId}), h("at", {id: a.session.userId}), "\n", "我已经收到了你的消息，请耐心等待..."), 100);
-    await a.session.sendQueued(h("p", h("quote", {id: a.session.messageId}), h("at", {id: a.session.userId}), "\n", res), 100);
+    await a.session.sendQueued(h("p", h("quote", {id: a.session.messageId}), h("at", {id: a.session.userId}), " ", "我已经收到了你的消息，请耐心等待..."), 100);
+    await a.session.sendQueued(h("p", h("quote", {id: a.session.messageId}), h("at", {id: a.session.userId}), " ", res), 100);
   })
   
   ctx.middleware(async (session, next) => {
@@ -88,8 +88,8 @@ export function apply(ctx: Context) {
       // in this mode only handles session msg
       return next();
     }
-    await session.sendQueued(h("p", h("quote", {id: session.messageId}), h("at", {id: session.userId}), "\n", "我已经收到了你的消息，请耐心等待..."), 100);
+    await session.sendQueued(h("p", h("quote", {id: session.messageId}), h("at", {id: session.userId}), " ", "我已经收到了你的消息，请耐心等待..."), 100);
     const res = await handleChat(conversation_id, user_id, session.content);
-    await session.sendQueued(h("p", h("quote", {id: session.messageId}), h("at", {id: session.userId}), "\n", res), 100);
+    await session.sendQueued(h("p", h("quote", {id: session.messageId}), h("at", {id: session.userId}), " ", res), 100);
   })
 }
