@@ -15,8 +15,10 @@
     "koishi",
     "plugin"
   ],
-  "devDependencies": {},
   "peerDependencies": {
     "koishi": "^4.17.11"
+  },
+  "dependencies": {
+    "dify-client": "^2.3.2"
   }
 }
