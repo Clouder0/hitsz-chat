@@ -72,7 +72,7 @@ export const API = (base_url: string, key: string) => {
         console.log("key", key);
 		const res = await fetch(`${base_url}/chat-messages`, {
 			headers: {
-				Authorization: `Bearer ${key}`,
+				"Authorization": `Bearer ${key}`,
 			},
 			method: "POST",
 			body: JSON.stringify({
@@ -95,7 +95,7 @@ export const API = (base_url: string, key: string) => {
 	) => {
 		await fetch(`${base_url}/messages/${message_id}/feedbacks`, {
 			headers: {
-				Authorization: `Bearer ${key}`,
+				"Authorization": `Bearer ${key}`,
 			},
 			method: "POST",
 			body: JSON.stringify({
