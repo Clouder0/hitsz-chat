@@ -1,4 +1,4 @@
-import { type Context, Schema, Session } from "koishi";
+import { type Context, h, Schema, Session } from "koishi";
 import { API } from "./api";
 import { v4 as uuidv4 } from "uuid";
 
@@ -70,13 +70,12 @@ export function apply(ctx: Context) {
   ctx.command("ask <msg:text>").action(async(a) => {
     // always start a new conversation
     const res = await handleChat("", a.session.author.id, a.args[0]);
-    await a.session.send("我已经收到了你的消息，请耐心等待...");
-    await a.session.send(res);
+    await a.session.sendQueued(h("p", h("quote", {id: a.session.messageId}), h("at", {id: a.session.userId}), "我已经收到了你的消息，请耐心等待..."), 100);
+    await a.session.sendQueued(h("p", h("quote", {id: a.session.messageId}), h("at", {id: a.session.userId}), res), 100);
   })
   
   ctx.middleware(async (session, next) => {
-    console.log(session.quote)
-    if(!session.quote?.user?.isBot) return next();
+    if(session.quote?.user?.id !== session.bot.userId) return next();
     const user_id = session.author.id;
 		const prev = await ctx.database.get(db, user_id);
     let conversation_id = "";
@@ -89,9 +88,8 @@ export function apply(ctx: Context) {
       // in this mode only handles session msg
       return next();
     }
-    await session.send("我已经收到了你的消息，请耐心等待...");
+    await session.sendQueued(h("p", h("quote", {id: session.messageId}), h("at", {id: session.userId}), "我已经收到了你的消息，请耐心等待..."), 100);
     const res = await handleChat(conversation_id, user_id, session.content);
-    await session.send(res);
-   
+    await session.sendQueued(h("p", h("quote", {id: session.messageId}), h("at", {id: session.userId}), res), 100);
   })
 }
