@@ -59,8 +59,7 @@ export function apply(ctx: Context) {
   }
 
 	ctx
-		.command("chat")
-    .subcommand("chat end", "终止本轮对话")
+		.command("chat.end", "终止本轮对话")
 		.usage("停止本轮对话，终止当前 Session，重新开始一个新的话题。")
 		.action(async (options) => {
 			const user_id = options.session.author.id;
