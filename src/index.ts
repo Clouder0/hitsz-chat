@@ -57,17 +57,13 @@ export function apply(ctx: Context) {
 		console.log("res", res);
 		const send_task = session.send(res.answer);
 
-		const set_task =
-			conversation_id === ""
-				? ctx.database.create(db, {
-						id: user_id,
-						last_time: new Date(now),
-						conversation_id: res.conversation_id,
-					})
-				: ctx.database.set(db, user_id, {
-						last_time: new Date(now),
-						conversation_id: res.conversation_id,
-					});
+		const set_task = ctx.database.upsert(db, (_) => [
+			{
+				id: user_id,
+				last_time: new Date(now),
+				conversation_id: res.conversation_id,
+			},
+		]);
 		console.log("set database", new Date(now), user_id, res.conversation_id);
 		await Promise.all([send_task, set_task]);
 		console.log("send done, res", res.answer);
